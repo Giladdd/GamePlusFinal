@@ -39,12 +39,28 @@ a {
     transition: 0.2s;
 }
 
-.logo {
-    display: flex;
+.logo img{
+    /* display: flex; */
     height: 260px;
     width: 260px;
 }
 
+.profile {
+	justify-content: center;
+    text-align: center;
+	flex-direction: column;
+	height: 80px;
+	width: 80px;
+	color: #777777;
+}
+
+.profile img, .myimg {
+    
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;
+	border: 2px #606060 solid;
+}
 .hone {
     margin-left: 44px;
     font-weight: bold;
@@ -61,7 +77,7 @@ a {
     flex-wrap: wrap;
     gap: 42px 42px;
     margin-top: 50px;
-    max-width: 1388px;
+    /* max-width: 1000px; */
     height: 100%;
     margin-left: 44px;
     margin-bottom: 500px;
@@ -71,22 +87,22 @@ a {
     background-color: #ffffff;
     box-shadow: 10px 40px 50px rgba(229, 233, 246, 0.4);
     border-radius: 20px;
-    width: 433px;
-    height: 508px;
+    /* width: 433px; */
+    height: 500px;
 }
 
 .wrapper a:hover {
     transition: 0.2s;
-    background: rgba(93, 96, 177, 0.6);
+    /* background: rgba(93, 96, 177, 0.6); */
 }
 
 .wrapper img {
     display: block;
     margin: auto auto;
-    margin-top: 30px;
+    border-radius: 20px 20px 0px 0px;
 }
 
-.wrapper div {
+.wrapper p {
     text-align: center;
     margin-top: 30px;
     font-weight: 700;
@@ -144,12 +160,20 @@ main div {
     margin-bottom: 350px;
 }
 
+.row {
+    margin: 0;
+}
+
+#bread a {
+    color: #212529;
+}
 
 /* register page */
 
 #wrapper_form {
     margin-left: 80px;
     margin-bottom: 25px;
+    width: 45%;
 }
 
 .hone {
@@ -190,6 +214,39 @@ main div {
     height: 256px;
 }
 
+.login-color {
+    background-color: #B6BECA;
+}
+
+.display {
+    display: grid;
+}
+
+.py-5 {
+    position: relative;
+    top: -18%;
+}
+
+.ml-5 {
+    margin-left: 3rem !important;
+  }
+  
+
+.mybtn {
+    background: none;
+    color: blueviolet;
+    font-size: 20px;
+    border: blueviolet solid 1px;
+    
+}
+
+.mybtn:hover { 
+    color: #ffffff;
+    opacity: 0.9;
+    transition: 0.2s;
+    background-color:  blueviolet;
+}
+
 @media(max-width: 1000px) {
     .fullPage {
         width: 100%;
@@ -197,11 +254,22 @@ main div {
     .fullPage .logo {
         margin-left: 10%;
     }
-    .fullPage .wrapper {
+    /* .fullPage .wrapper {
         width: 400px;
         margin-left: 0px;
+    } */
+
+    #wrapper_form {
+        width: 80%;
+        margin: 0px auto;
     }
-    .fullPage footer {
+    
+    .alert img{
+        width: 90%;
+    }
+    
+
+     .fullPage footer {
         width: 100%;
     }
     .fullPage footer a {
@@ -209,5 +277,13 @@ main div {
     }
     .fullPage footer .logo {
         margin-left: 0%;
-    }
+    } 
+    
+    .row {
+        width: 90%;
+      }
+
+      .dis-non{
+        display: none;
+      }
 }

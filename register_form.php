@@ -1,3 +1,30 @@
+<?php 
+    include "db.php";
+    include "config.php";
+
+    session_start();
+    if(!isset($_SESSION["user_id"]))
+    {
+        header('Location:' . 'index.php');
+    }
+
+    $game_id = $_GET["game_id"];
+
+
+    $query4 = "SELECT * FROM tbl_204_user WHERE user_name='"
+    .  $_SESSION["user_name"]
+    ."'";
+    $result4 = mysqli_query($connection, $query4);
+    if($result4){
+        $row4 = mysqli_fetch_assoc($result4);
+    }
+    else
+    {
+        die("The db query failed "); 
+    }
+  
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -7,82 +34,68 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <title>register_page</title>
+    <title>register page</title>
 </head>
 
 <body class="fullPage">
+
+    <?php 
+        if(!empty($_POST["Submit"])) {
+            $query = 'INSERT INTO tbl_204_user_in_game (user_id, game_id, rank, ign, user_picture) VALUES ('.$_SESSION["user_id"].', '.$game_id.', '.$_POST["rank"].', "'.$_POST["username"].'", "'.$_POST["image"].'")';
+            mysqli_query($connection, $query);
+            header('Location: '.'gamepage.php?game_id=' . $game_id);
+        }
+    ?>
+
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand logo" href="index.html"><img src="./images/logo_transparent.png" alt="logo" width="260" height="260" class="d-inline-block align-text-top"></a>
+            <a class="navbar-brand logo" href="home.php"><img src="./images/logo_transparent.png" alt="logo" class="d-inline-block align-text-top"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="index.html">Home</a>
-                    <a class="nav-link active" aria-current="page" href="list.html">Looking for player</a>
-                    <a class="nav-link" aria-current="page" href="games.html">Games</a>
+                    <a class="nav-link" href="home.php">Home</a>
+                    <a class="nav-link" href="games.php">Games</a>
                     <a class="nav-link" href="#">Settings</a>
                     <a class="nav-link" href="#">About us</a>
                 </div>
             </div>
+            <a href="profile.php" class="profile">
+                <img src="<?php echo $row4['picture']; ?>" alt="user">
+                <p><?php echo "<strong>" . $row4['user_name'] . "</strong>";?></p>
+            </a>
+            <a href="logout.php">
+                <button type="button" class="btn btn-danger">Log Out</button></a>    
         </div>
     </nav>
 
     <div id="wrapper_form">
         <h1>Add yourself to the list!</h1>
-        <form action="get_params_form.php" method="GET" id="form">
+        <form action="#" method="POST" id="form">
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                        <label for="sector">User-name</label>
+                    </div>
+                </div>
 
-            <br>
-            <div class="mb-3">
-                <label for="username" class="form-label">User-name:
-                    <input type="text" name="username" class="form-control" placeholder="Username">
-                </label>
+                <div class="col">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="rank" name="rank" placeholder="rank" step="1" min="1" max="150">
+                        <label for="rank">Your Rank</label>
+                    </div>
+                </div>
             </div>
-
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:
-                    <input type="email" name="email" class="form-control" placeholder="email">
-                </label>
-            </div>
-
-
-
-            <label>
-                Choose your country:
-                <select name="country" required class="form-select">
-                    <option value="Israel" selected>Israel</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <option value="UK">UK</option>
-                    <option value="Greece">Greece</option>
-
-                </select><br>
-            </label>
-            <div class="mb-3">
-                <label class="form-label">
-                    Enter your age:
-                    <input type="number" name="age" placeholder="age" class="form-control" step="1" min="1" max="150">
-                </label>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">
-                    Your Rank:
-                    <input type="number" name="Rank" placeholder="Rank" class="form-control" step="1" min="1" max="150">
-                </label>
-            </div>
-
-
-
-            <br>
+    
+            <hr>
             <span>choose image:</span><br>
             <div class="form-check">
                 <label class="form-check-label">
                     <img src="./images/ninjaRed.png" alt="Red" height="80px" width="80px">
                     Red Ninja
-                    <input type="radio" name="image" value="Male" class="form-check-input">
+                    <input type="radio" name="image" value="./images/ninjaRed.png" class="form-check-input">
                 </label>
             </div>
 
@@ -90,14 +103,11 @@
                 <label class="form-check-label">
                     <img src="./images/ninjaBlue.png" alt="blue" height="80px" width="80px">
                     Blue Ninja
-                    <input type="radio" name="image" value="Female" class="form-check-input">
+                    <input type="radio" name="image" value="./images/ninjaBlue.png" class="form-check-input">
                 </label>
             </div>
 
-
-
-
-            <input type="submit" value="Submit" class="btn btn-dark" id="submit_button">
+            <input type="submit" name="Submit" value="Submit" class="btn btn-dark" id="submit_button">
             <input type="button" value="Reset" class="btn btn-dark" id="reset_button">
 
 
@@ -124,3 +134,7 @@
 </body>
 
 </html>
+
+<?php 
+    mysqli_close($connection);
+?>
